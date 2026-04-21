@@ -1,69 +1,583 @@
+<!-- AI generated code -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Top Five</title>
+    <title>Top Five - Share Your Favorites</title>
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #ec4899;
+            --success: #10b981;
+            --danger: #ef4444;
+            --bg-main: #f8fafc;
+            --bg-card: #ffffff;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --border: #e2e8f0;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
         body {
-            font-family: Arial, sans-serif;
-            margin: 2em;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 2rem 1rem;
+            color: var(--text-primary);
         }
-        form {
-            margin-bottom: 2em;
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
         }
-        table {
+
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+            color: white;
+        }
+
+        header h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        header p {
+            font-size: 1.125rem;
+            opacity: 0.9;
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 2rem;
+            align-items: start;
+        }
+
+        .form-card {
+            background: var(--bg-card);
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: var(--shadow-lg);
+            position: sticky;
+            top: 2rem;
+        }
+
+        .form-card h2 {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+            font-size: 0.9rem;
+        }
+
+        .form-group input {
             width: 100%;
-            border-collapse: collapse;
+            padding: 0.75rem;
+            border: 2px solid var(--border);
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            transition: all 0.3s ease;
         }
-        table, th, td {
-            border: 1px solid black;
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
         }
-        th, td {
-            padding: 10px;
-            text-align: left;
+
+        .items-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
         }
-        th {
-            background-color: #f4f4f4;
+
+        .item-input-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .item-number {
+            background: var(--primary);
+            color: white;
+            width: 2rem;
+            height: 2rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 0.875rem;
+            flex-shrink: 0;
+        }
+
+        button[type="submit"] {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            border: none;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            margin-top: 1rem;
+        }
+
+        button[type="submit"]:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+        }
+
+        button[type="submit"]:active {
+            transform: translateY(0);
+        }
+
+        .submissions-section h2 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .filter-bar {
+            background: var(--bg-card);
+            padding: 1rem;
+            border-radius: 0.75rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            box-shadow: var(--shadow);
+        }
+
+        .filter-bar input {
+            flex: 1;
+            padding: 0.625rem 1rem;
+            border: 2px solid var(--border);
+            border-radius: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .filter-bar select {
+            padding: 0.625rem 1rem;
+            border: 2px solid var(--border);
+            border-radius: 0.5rem;
+            font-size: 0.9rem;
+            cursor: pointer;
+        }
+
+        .submissions-grid {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .submission-card {
+            background: var(--bg-card);
+            border-radius: 1rem;
+            padding: 1.75rem;
+            box-shadow: var(--shadow);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .submission-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .submission-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 1.25rem;
+        }
+
+        .submission-category {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.25rem;
+        }
+
+        .submission-meta {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+
+        .submission-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .btn-action {
+            padding: 0.5rem 0.75rem;
+            border: none;
+            border-radius: 0.375rem;
+            cursor: pointer;
+            font-size: 0.875rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .btn-edit {
+            background: var(--success);
+            color: white;
+        }
+
+        .btn-delete {
+            background: var(--danger);
+            color: white;
+        }
+
+        .btn-action:hover {
+            opacity: 0.9;
+            transform: scale(1.05);
+        }
+
+        .items-display {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .items-display li {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.75rem;
+            background: var(--bg-main);
+            border-radius: 0.5rem;
+            transition: background 0.2s ease;
+        }
+
+        .items-display li:hover {
+            background: #e0e7ff;
+        }
+
+        .item-rank {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            width: 2rem;
+            height: 2rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.875rem;
+            flex-shrink: 0;
+        }
+
+        .item-text {
+            flex: 1;
+            font-size: 1rem;
+            color: var(--text-primary);
+        }
+
+        .vote-section {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .vote-btn {
+            padding: 0.5rem 1rem;
+            border: 2px solid var(--primary);
+            background: white;
+            color: var(--primary);
+            border-radius: 0.5rem;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .vote-btn:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .vote-btn.voted {
+            background: var(--primary);
+            color: white;
+        }
+
+        .vote-count {
+            font-weight: 600;
+            color: var(--text-secondary);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            background: var(--bg-card);
+            border-radius: 1rem;
+            box-shadow: var(--shadow);
+        }
+
+        .empty-state svg {
+            width: 5rem;
+            height: 5rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+
+        .empty-state h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-secondary);
+        }
+
+        .empty-state p {
+            color: var(--text-secondary);
+        }
+
+        @media (max-width: 968px) {
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-card {
+                position: static;
+            }
+
+            header h1 {
+                font-size: 2rem;
+            }
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            background: var(--secondary);
+            color: white;
+            border-radius: 1rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-left: 0.5rem;
         }
     </style>
 </head>
 <body>
-    <h1>Top Five</h1>
-    <form method="POST">
-        <label for="category">Category:</label><br>
-        <input type="text" id="category" name="category" required><br><br>
+    <div class="container">
+        <header>
+            <h1>🌟 Top Five 🌟</h1>
+            <p>Share your favorite things with the world</p>
+        </header>
 
-        <label>Items:</label><br>
-        <input type="text" name="item1" placeholder="Item 1" required><br>
-        <input type="text" name="item2" placeholder="Item 2" required><br>
-        <input type="text" name="item3" placeholder="Item 3" required><br>
-        <input type="text" name="item4" placeholder="Item 4" required><br>
-        <input type="text" name="item5" placeholder="Item 5" required><br><br>
+        <div class="content-grid">
+            <!-- Form Section -->
+            <div class="form-card">
+                <h2>Create Your List</h2>
+                <form method="POST" action="/submit">
+                    <div class="form-group">
+                        <label for="category">Category</label>
+                        <input type="text" id="category" name="category" placeholder="e.g., Movies, Books, Songs..." required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Your Top 5</label>
+                        <div class="items-list">
+                            <div class="item-input-wrapper">
+                                <span class="item-number">1</span>
+                                <input type="text" name="item1" placeholder="First favorite" required>
+                            </div>
+                            <div class="item-input-wrapper">
+                                <span class="item-number">2</span>
+                                <input type="text" name="item2" placeholder="Second favorite" required>
+                            </div>
+                            <div class="item-input-wrapper">
+                                <span class="item-number">3</span>
+                                <input type="text" name="item3" placeholder="Third favorite" required>
+                            </div>
+                            <div class="item-input-wrapper">
+                                <span class="item-number">4</span>
+                                <input type="text" name="item4" placeholder="Fourth favorite" required>
+                            </div>
+                            <div class="item-input-wrapper">
+                                <span class="item-number">5</span>
+                                <input type="text" name="item5" placeholder="Fifth favorite" required>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button type="submit">✨ Share My List</button>
+                </form>
+            </div>
 
-        <button type="submit">Submit</button>
-    </form>
+            <!-- Submissions Section -->
+            <div class="submissions-section">
+                <h2>
+                    Community Lists
+                    {% if submissions %}
+                    <span class="badge">{{ submissions|length }}</span>
+                    {% endif %}
+                </h2>
 
-    <h2>Submissions</h2>
-    {% if submissions %}
-        <table>
-            <thead>
-                <tr>
-                    <th>Category</th>
-                    <th>Items</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for submission in submissions %}
-                    <tr>
-                        <td>{{ submission.category }}</td>
-                        <td>{{ ", ".join(submission.five) }}</td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    {% else %}
-        <p>No submissions yet!</p>
-    {% endif %}
+                <!-- Filter Bar -->
+                <div class="filter-bar">
+                    <input type="text" id="searchInput" placeholder="🔍 Search categories or items..." onkeyup="filterSubmissions()">
+                    <select id="sortSelect" onchange="sortSubmissions()">
+                        <option value="newest">Newest First</option>
+                        <option value="oldest">Oldest First</option>
+                        <option value="popular">Most Votes</option>
+                        <option value="category">By Category</option>
+                    </select>
+                </div>
+
+                <div class="submissions-grid" id="submissionsGrid">
+                    {% if submissions %}
+                        {% for submission in submissions %}
+                        <div class="submission-card" data-category="{{ submission.category }}" data-votes="{{ submission.votes|default(0) }}">
+                            <div class="submission-header">
+                                <div>
+                                    <div class="submission-category">{{ submission.category }}</div>
+                                    <div class="submission-meta">Posted {{ submission.timestamp|default('recently') }}</div>
+                                </div>
+                                <div class="submission-actions">
+                                    <button class="btn-action btn-edit" onclick="editSubmission('{{ loop.index0 }}')">✏️ Edit</button>
+                                    <button class="btn-action btn-delete" onclick="deleteSubmission('{{ loop.index0 }}')">🗑️ Delete</button>
+                                </div>
+                            </div>
+                            
+                            <ol class="items-display">
+                                {% for item in submission.five %}
+                                <li>
+                                    <span class="item-rank">{{ loop.index }}</span>
+                                    <span class="item-text">{{ item }}</span>
+                                </li>
+                                {% endfor %}
+                            </ol>
+
+                            <div class="vote-section">
+                                <button class="vote-btn" onclick="toggleVote(this, '{{ loop.index0 }}')">
+                                    👍 Upvote
+                                </button>
+                                <span class="vote-count">{{ submission.votes|default(0) }} votes</span>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    {% else %}
+                        <div class="empty-state">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+                            </svg>
+                            <h3>No lists yet!</h3>
+                            <p>Be the first to share your top five favorites</p>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Search/Filter functionality
+        function filterSubmissions() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const cards = document.querySelectorAll('.submission-card');
+            
+            cards.forEach(card => {
+                const category = card.dataset.category.toLowerCase();
+                const items = Array.from(card.querySelectorAll('.item-text'))
+                    .map(el => el.textContent.toLowerCase())
+                    .join(' ');
+                
+                if (category.includes(searchTerm) || items.includes(searchTerm)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        // Sort functionality
+        function sortSubmissions() {
+            const sortBy = document.getElementById('sortSelect').value;
+            const grid = document.getElementById('submissionsGrid');
+            const cards = Array.from(document.querySelectorAll('.submission-card'));
+            
+            cards.sort((a, b) => {
+                switch(sortBy) {
+                    case 'popular':
+                        return parseInt(b.dataset.votes) - parseInt(a.dataset.votes);
+                    case 'category':
+                        return a.dataset.category.localeCompare(b.dataset.category);
+                    case 'oldest':
+                        return 0; // Keep original order
+                    case 'newest':
+                    default:
+                        return 0; // Reverse original order would need timestamp
+                }
+            });
+            
+            cards.forEach(card => grid.appendChild(card));
+        }
+
+        // Vote functionality
+        function toggleVote(btn, index) {
+            const voted = btn.classList.toggle('voted');
+            const voteCount = btn.nextElementSibling;
+            const currentVotes = parseInt(voteCount.textContent);
+            
+            if (voted) {
+                voteCount.textContent = `${currentVotes + 1} votes`;
+                btn.innerHTML = '💙 Voted';
+            } else {
+                voteCount.textContent = `${currentVotes - 1} votes`;
+                btn.innerHTML = '👍 Upvote';
+            }
+            
+            // Here you would send a POST request to your backend
+            // fetch('/vote', { method: 'POST', body: JSON.stringify({ index, voted }) });
+        }
+
+        // Edit functionality
+        function editSubmission(index) {
+            alert(`Edit functionality for submission ${index} - This would open an edit modal or form`);
+            // Here you would implement actual edit logic
+            // This could open a modal with the submission data pre-filled
+        }
+
+        // Delete functionality
+        function deleteSubmission(index) {
+            if (confirm('Are you sure you want to delete this list?')) {
+                alert(`Delete submission ${index} - This would send a DELETE request to your backend`);
+                // Here you would send a DELETE request to your backend
+                // fetch('/delete/' + index, { method: 'DELETE' });
+            }
+        }
+    </script>
 </body>
 </html>
